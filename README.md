@@ -1,8 +1,6 @@
-# ActLens — EU AI Act RAG Assistant
+# ActLens: EU AI Act RAG Assistant
 
 A production-oriented Retrieval-Augmented Generation (RAG) assistant for querying the EU AI Act with verifiable source citations.
-
-**Detailed documentation:** [docs/PROJECT.md](docs/PROJECT.md)
 
 **Detailed documentation:** [docs/PROJECT.md](docs/PROJECT.md)
 
