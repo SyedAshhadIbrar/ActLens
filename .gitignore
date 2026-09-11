@@ -4,6 +4,12 @@ __pycache__/
 *$py.class
 *.so
 .Python
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+coverage.xml
+htmlcov/
 build/
 develop-eggs/
 dist/
@@ -26,14 +32,20 @@ ENV/
 # Environment
 .env
 .env.local
+.env.*.local
+!.env.example
 
 # Storage / indexes
 storage/chroma/
 storage/bm25/
 storage/hf_cache/
 storage/manifest.json
+storage/**/*.sqlite3
+storage/**/*.bin
+storage/**/*.pkl
 
 # IDE
+.cursor/
 .idea/
 .vscode/
 *.swp
@@ -51,10 +63,18 @@ data/raw/*
 .cache/
 models/
 
-# Docker
-*.log
-
-# Frontend (when added)
+# Frontend
 frontend/node_modules/
 frontend/.next/
 frontend/dist/
+frontend/.vite/
+frontend/.env
+frontend/.env.local
+frontend/.env.*.local
+
+# Logs and temporary files
+*.log
+*.tmp
+*.temp
+tmp/
+temp/
