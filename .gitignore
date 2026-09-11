@@ -1,0 +1,60 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+.venv/
+venv/
+ENV/
+
+# Environment
+.env
+.env.local
+
+# Storage / indexes
+storage/chroma/
+storage/bm25/
+storage/hf_cache/
+storage/manifest.json
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Data (keep structure, ignore large downloads)
+data/raw/*
+!data/raw/.gitkeep
+
+# Model cache
+.cache/
+models/
+
+# Docker
+*.log
+
+# Frontend (when added)
+frontend/node_modules/
+frontend/.next/
+frontend/dist/
