@@ -1,0 +1,274 @@
+[
+  {
+    "id": "ai-literacy-obligation",
+    "query": "What must providers and deployers do to ensure their staff have sufficient AI literacy?",
+    "language": "en",
+    "category": "general-obligations",
+    "query_type": "natural",
+    "expected": ["art:4"]
+  },
+  {
+    "id": "prohibited-practices",
+    "query": "Which AI practices are prohibited by the EU AI Act?",
+    "language": "en",
+    "category": "prohibited-practices",
+    "query_type": "natural",
+    "expected": ["art:5"]
+  },
+  {
+    "id": "social-scoring-scenario",
+    "query": "Can a public authority use AI-generated social scores to treat people unfavourably in unrelated situations?",
+    "language": "en",
+    "category": "prohibited-practices",
+    "query_type": "scenario",
+    "expected": ["art:5"]
+  },
+  {
+    "id": "high-risk-classification",
+    "query": "How does the Act classify an AI system as high-risk?",
+    "language": "en",
+    "category": "high-risk-systems",
+    "query_type": "natural",
+    "expected": ["art:6"]
+  },
+  {
+    "id": "risk-management",
+    "query": "What continuous risk management process is required for high-risk AI systems?",
+    "language": "en",
+    "category": "high-risk-requirements",
+    "query_type": "natural",
+    "expected": ["art:9"]
+  },
+  {
+    "id": "data-governance",
+    "query": "What data governance and training data quality requirements apply to high-risk AI systems?",
+    "language": "en",
+    "category": "high-risk-requirements",
+    "query_type": "natural",
+    "expected": ["art:10"]
+  },
+  {
+    "id": "technical-documentation",
+    "query": "What technical documentation must be prepared before a high-risk AI system is placed on the market?",
+    "language": "en",
+    "category": "high-risk-requirements",
+    "query_type": "natural",
+    "expected": ["art:11"]
+  },
+  {
+    "id": "automatic-logs",
+    "query": "Must high-risk AI systems automatically record events during operation?",
+    "language": "en",
+    "category": "high-risk-requirements",
+    "query_type": "natural",
+    "expected": ["art:12"]
+  },
+  {
+    "id": "instructions-for-use",
+    "query": "What information and instructions must providers give deployers of high-risk AI systems?",
+    "language": "en",
+    "category": "high-risk-requirements",
+    "query_type": "natural",
+    "expected": ["art:13"]
+  },
+  {
+    "id": "human-oversight",
+    "query": "What human oversight measures are required for high-risk AI systems?",
+    "language": "en",
+    "category": "high-risk-requirements",
+    "query_type": "natural",
+    "expected": ["art:14"]
+  },
+  {
+    "id": "accuracy-robustness-cybersecurity",
+    "query": "Which accuracy, robustness and cybersecurity standards apply throughout a high-risk system's lifecycle?",
+    "language": "en",
+    "category": "high-risk-requirements",
+    "query_type": "natural",
+    "expected": ["art:15"]
+  },
+  {
+    "id": "provider-obligations",
+    "query": "What are the main legal obligations of providers of high-risk AI systems?",
+    "language": "en",
+    "category": "operator-obligations",
+    "query_type": "natural",
+    "expected": ["art:16"]
+  },
+  {
+    "id": "quality-management-system",
+    "query": "What must a provider include in its quality management system for high-risk AI?",
+    "language": "en",
+    "category": "operator-obligations",
+    "query_type": "natural",
+    "expected": ["art:17"]
+  },
+  {
+    "id": "document-retention",
+    "query": "For how long must providers keep documentation relating to a high-risk AI system?",
+    "language": "en",
+    "category": "operator-obligations",
+    "query_type": "natural",
+    "expected": ["art:18"]
+  },
+  {
+    "id": "corrective-actions",
+    "query": "What corrective action must a provider take when a high-risk AI system is not compliant?",
+    "language": "en",
+    "category": "operator-obligations",
+    "query_type": "scenario",
+    "expected": ["art:20"]
+  },
+  {
+    "id": "authority-cooperation",
+    "query": "How must high-risk AI providers cooperate with national competent authorities?",
+    "language": "en",
+    "category": "operator-obligations",
+    "query_type": "natural",
+    "expected": ["art:21"]
+  },
+  {
+    "id": "authorised-representative",
+    "query": "When must a provider outside the Union appoint an authorised representative?",
+    "language": "en",
+    "category": "operator-obligations",
+    "query_type": "scenario",
+    "expected": ["art:22"]
+  },
+  {
+    "id": "importer-obligations",
+    "query": "What checks must an importer perform before placing a high-risk AI system on the Union market?",
+    "language": "en",
+    "category": "operator-obligations",
+    "query_type": "scenario",
+    "expected": ["art:23"]
+  },
+  {
+    "id": "distributor-obligations",
+    "query": "What must a distributor verify before making a high-risk AI system available?",
+    "language": "en",
+    "category": "operator-obligations",
+    "query_type": "scenario",
+    "expected": ["art:24"]
+  },
+  {
+    "id": "value-chain-responsibility",
+    "query": "When does an importer, distributor or deployer become the provider of a high-risk AI system?",
+    "language": "en",
+    "category": "operator-obligations",
+    "query_type": "scenario",
+    "expected": ["art:25"]
+  },
+  {
+    "id": "deployer-obligations",
+    "query": "What obligations apply to organisations deploying high-risk AI systems?",
+    "language": "en",
+    "category": "operator-obligations",
+    "query_type": "natural",
+    "expected": ["art:26"]
+  },
+  {
+    "id": "fundamental-rights-impact-assessment",
+    "query": "When must a deployer complete a fundamental rights impact assessment?",
+    "language": "en",
+    "category": "impact-assessment",
+    "query_type": "natural",
+    "expected": ["art:27"]
+  },
+  {
+    "id": "conformity-assessment",
+    "query": "Which conformity assessment procedures apply before a high-risk AI system enters the market?",
+    "language": "en",
+    "category": "conformity",
+    "query_type": "natural",
+    "expected": ["art:43"]
+  },
+  {
+    "id": "registration",
+    "query": "Which high-risk AI systems and operators must be registered in the EU database?",
+    "language": "en",
+    "category": "registration",
+    "query_type": "natural",
+    "expected": ["art:49"]
+  },
+  {
+    "id": "chatbot-transparency",
+    "query": "Must people be told when they are interacting directly with an AI system?",
+    "language": "en",
+    "category": "transparency",
+    "query_type": "scenario",
+    "expected": ["art:50"]
+  },
+  {
+    "id": "deepfake-disclosure",
+    "query": "What disclosure is required when an AI system generates or manipulates deepfake content?",
+    "language": "en",
+    "category": "transparency",
+    "query_type": "scenario",
+    "expected": ["art:50"]
+  },
+  {
+    "id": "gpai-systemic-risk-classification",
+    "query": "When is a general-purpose AI model classified as having systemic risk?",
+    "language": "en",
+    "category": "general-purpose-ai",
+    "query_type": "natural",
+    "expected": ["art:51"]
+  },
+  {
+    "id": "gpai-provider-obligations",
+    "query": "What documentation and copyright obligations apply to providers of general-purpose AI models?",
+    "language": "en",
+    "category": "general-purpose-ai",
+    "query_type": "natural",
+    "expected": ["art:53"]
+  },
+  {
+    "id": "gpai-systemic-risk-obligations",
+    "query": "What model evaluations and incident reporting duties apply to GPAI models with systemic risk?",
+    "language": "en",
+    "category": "general-purpose-ai",
+    "query_type": "natural",
+    "expected": ["art:55"]
+  },
+  {
+    "id": "gpai-codes-of-practice",
+    "query": "How can codes of practice demonstrate compliance by general-purpose AI model providers?",
+    "language": "en",
+    "category": "general-purpose-ai",
+    "query_type": "natural",
+    "expected": ["art:56"]
+  },
+  {
+    "id": "regulatory-sandboxes",
+    "query": "What must Member States provide for AI regulatory sandboxes?",
+    "language": "en",
+    "category": "innovation",
+    "query_type": "natural",
+    "expected": ["art:57"]
+  },
+  {
+    "id": "post-market-monitoring",
+    "query": "What post-market monitoring system must providers establish for high-risk AI?",
+    "language": "en",
+    "category": "post-market",
+    "query_type": "natural",
+    "expected": ["art:72"]
+  },
+  {
+    "id": "serious-incident-reporting",
+    "query": "When and how must providers report a serious incident involving a high-risk AI system?",
+    "language": "en",
+    "category": "post-market",
+    "query_type": "scenario",
+    "expected": ["art:73"]
+  },
+  {
+    "id": "administrative-fines",
+    "query": "What administrative fines can be imposed for infringements of the EU AI Act?",
+    "language": "en",
+    "category": "enforcement",
+    "query_type": "natural",
+    "expected": ["art:99"]
+  }
+]

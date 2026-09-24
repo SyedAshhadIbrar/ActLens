@@ -3,7 +3,7 @@ import asyncio
 from sentence_transformers import SentenceTransformer
 
 from app.config import settings
-from app.core.providers.base import EmbedInputType, EmbeddingProvider
+from app.core.providers.base import EmbeddingProvider, EmbedInputType
 
 
 class HFEmbeddingProvider(EmbeddingProvider):

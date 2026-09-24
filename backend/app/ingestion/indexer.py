@@ -1,13 +1,12 @@
 import json
 import pickle
 from datetime import datetime, timezone
-from pathlib import Path
 
 from app.config import settings
 from app.core.providers.base import EmbeddingProvider
 from app.ingestion.chunker import Chunk
-from app.ingestion.loader import LoadedDocument, load_documents
 from app.ingestion.hf_dataset import load_hf_dataset
+from app.ingestion.loader import LoadedDocument, load_documents
 from app.retrieval.bm25_index import BM25Index
 from app.retrieval.vector_store import VectorStore
 
@@ -44,7 +43,7 @@ class Indexer:
         if bm25_path.exists():
             with open(bm25_path, "rb") as f:
                 data = pickle.load(f)
-            self._bm25_index = BM25Index.from_dict(data)
+            self._bm25_index.load_dict(data)
 
     async def ingest(
         self,

@@ -1,0 +1,820 @@
+{
+  "benchmark": "evals/retrieval_cases.json",
+  "top_k": 5,
+  "summary": {
+    "case_count": 34,
+    "hit_rate": 0.9411764705882353,
+    "mrr": 0.782843137254902,
+    "ndcg": 0.822711121563683
+  },
+  "by_category": {
+    "conformity": {
+      "case_count": 1,
+      "hit_rate": 1.0,
+      "mrr": 0.5,
+      "ndcg": 0.6309297535714575
+    },
+    "enforcement": {
+      "case_count": 1,
+      "hit_rate": 1.0,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    "general-obligations": {
+      "case_count": 1,
+      "hit_rate": 1.0,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    "general-purpose-ai": {
+      "case_count": 4,
+      "hit_rate": 1.0,
+      "mrr": 0.8,
+      "ndcg": 0.8467132018086354
+    },
+    "high-risk-requirements": {
+      "case_count": 7,
+      "hit_rate": 1.0,
+      "mrr": 0.8571428571428571,
+      "ndcg": 0.8945513581632737
+    },
+    "high-risk-systems": {
+      "case_count": 1,
+      "hit_rate": 0.0,
+      "mrr": 0.0,
+      "ndcg": 0.0
+    },
+    "impact-assessment": {
+      "case_count": 1,
+      "hit_rate": 1.0,
+      "mrr": 0.5,
+      "ndcg": 0.6309297535714575
+    },
+    "innovation": {
+      "case_count": 1,
+      "hit_rate": 1.0,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    "operator-obligations": {
+      "case_count": 10,
+      "hit_rate": 0.9,
+      "mrr": 0.85,
+      "ndcg": 0.8630929753571458
+    },
+    "post-market": {
+      "case_count": 2,
+      "hit_rate": 1.0,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    "prohibited-practices": {
+      "case_count": 2,
+      "hit_rate": 1.0,
+      "mrr": 0.29166666666666663,
+      "ndcg": 0.46533827903669656
+    },
+    "registration": {
+      "case_count": 1,
+      "hit_rate": 1.0,
+      "mrr": 0.3333333333333333,
+      "ndcg": 0.5
+    },
+    "transparency": {
+      "case_count": 2,
+      "hit_rate": 1.0,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    }
+  },
+  "by_query_type": {
+    "natural": {
+      "case_count": 25,
+      "hit_rate": 0.92,
+      "mrr": 0.7313333333333334,
+      "ndcg": 0.7788871253266089
+    },
+    "scenario": {
+      "case_count": 9,
+      "hit_rate": 1.0,
+      "mrr": 0.925925925925926,
+      "ndcg": 0.9444444444444444
+    }
+  },
+  "cases": [
+    {
+      "case_id": "ai-literacy-obligation",
+      "query": "What must providers and deployers do to ensure their staff have sufficient AI literacy?",
+      "language": "en",
+      "expected": [
+        "art:4"
+      ],
+      "first_relevant_rank": 1,
+      "retrieved_labels": [
+        "Art. 4 AI Act",
+        "Art. 4 AI Act",
+        "Recital (91) AI Act",
+        "Recital (20) AI Act",
+        "Art. 26 AI Act"
+      ],
+      "category": "general-obligations",
+      "query_type": "natural",
+      "hit": true,
+      "reciprocal_rank": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "case_id": "prohibited-practices",
+      "query": "Which AI practices are prohibited by the EU AI Act?",
+      "language": "en",
+      "expected": [
+        "art:5"
+      ],
+      "first_relevant_rank": 4,
+      "retrieved_labels": [
+        "Recital (29) AI Act",
+        "Art. 79 AI Act",
+        "Art. 112(1) AI Act",
+        "Art. 5(1) AI Act",
+        "Recital (28) AI Act"
+      ],
+      "category": "prohibited-practices",
+      "query_type": "natural",
+      "hit": true,
+      "reciprocal_rank": 0.25,
+      "ndcg": 0.43067655807339306
+    },
+    {
+      "case_id": "social-scoring-scenario",
+      "query": "Can a public authority use AI-generated social scores to treat people unfavourably in unrelated situations?",
+      "language": "en",
+      "expected": [
+        "art:5"
+      ],
+      "first_relevant_rank": 3,
+      "retrieved_labels": [
+        "Recital (31) AI Act",
+        "Recital (58) AI Act",
+        "Art. 5(1) AI Act",
+        "Art. 5(1) AI Act",
+        "Art. 5 AI Act"
+      ],
+      "category": "prohibited-practices",
+      "query_type": "scenario",
+      "hit": true,
+      "reciprocal_rank": 0.3333333333333333,
+      "ndcg": 0.5
+    },
+    {
+      "case_id": "high-risk-classification",
+      "query": "How does the Act classify an AI system as high-risk?",
+      "language": "en",
+      "expected": [
+        "art:6"
+      ],
+      "first_relevant_rank": null,
+      "retrieved_labels": [
+        "Recital (51) AI Act",
+        "Recital (52) AI Act",
+        "Art. 2(2) AI Act",
+        "Recital (61) AI Act",
+        "Art. 80(1) AI Act"
+      ],
+      "category": "high-risk-systems",
+      "query_type": "natural",
+      "hit": false,
+      "reciprocal_rank": 0.0,
+      "ndcg": 0.0
+    },
+    {
+      "case_id": "risk-management",
+      "query": "What continuous risk management process is required for high-risk AI systems?",
+      "language": "en",
+      "expected": [
+        "art:9"
+      ],
+      "first_relevant_rank": 1,
+      "retrieved_labels": [
+        "Art. 9(2) AI Act",
+        "Recital (65) AI Act",
+        "Art. 9 AI Act",
+        "Art. 9(6) AI Act",
+        "Art. 9(10) AI Act"
+      ],
+      "category": "high-risk-requirements",
+      "query_type": "natural",
+      "hit": true,
+      "reciprocal_rank": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "case_id": "data-governance",
+      "query": "What data governance and training data quality requirements apply to high-risk AI systems?",
+      "language": "en",
+      "expected": [
+        "art:10"
+      ],
+      "first_relevant_rank": 1,
+      "retrieved_labels": [
+        "Art. 10 AI Act",
+        "Recital (66) AI Act",
+        "Recital (67) AI Act",
+        "Art. 10(1) AI Act",
+        "Recital (68) AI Act"
+      ],
+      "category": "high-risk-requirements",
+      "query_type": "natural",
+      "hit": true,
+      "reciprocal_rank": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "case_id": "technical-documentation",
+      "query": "What technical documentation must be prepared before a high-risk AI system is placed on the market?",
+      "language": "en",
+      "expected": [
+        "art:11"
+      ],
+      "first_relevant_rank": 1,
+      "retrieved_labels": [
+        "Art. 11(1) AI Act",
+        "Art. 11 AI Act",
+        "Art. 23 AI Act",
+        "Art. 23(1) AI Act",
+        "Art. 11(2) AI Act"
+      ],
+      "category": "high-risk-requirements",
+      "query_type": "natural",
+      "hit": true,
+      "reciprocal_rank": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "case_id": "automatic-logs",
+      "query": "Must high-risk AI systems automatically record events during operation?",
+      "language": "en",
+      "expected": [
+        "art:12"
+      ],
+      "first_relevant_rank": 1,
+      "retrieved_labels": [
+        "Art. 12(1) AI Act",
+        "Art. 12 AI Act",
+        "Recital (71) AI Act",
+        "Art. 12(2) AI Act",
+        "Art. 26(6) AI Act"
+      ],
+      "category": "high-risk-requirements",
+      "query_type": "natural",
+      "hit": true,
+      "reciprocal_rank": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "case_id": "instructions-for-use",
+      "query": "What information and instructions must providers give deployers of high-risk AI systems?",
+      "language": "en",
+      "expected": [
+        "art:13"
+      ],
+      "first_relevant_rank": 2,
+      "retrieved_labels": [
+        "Art. 26(5) AI Act",
+        "Art. 13(2) AI Act",
+        "Art. 13(3) AI Act",
+        "Recital (72) AI Act",
+        "Art. 26 AI Act"
+      ],
+      "category": "high-risk-requirements",
+      "query_type": "natural",
+      "hit": true,
+      "reciprocal_rank": 0.5,
+      "ndcg": 0.6309297535714575
+    },
+    {
+      "case_id": "human-oversight",
+      "query": "What human oversight measures are required for high-risk AI systems?",
+      "language": "en",
+      "expected": [
+        "art:14"
+      ],
+      "first_relevant_rank": 2,
+      "retrieved_labels": [
+        "Recital (73) AI Act",
+        "Art. 14 AI Act",
+        "Recital (66) AI Act",
+        "Art. 14(3) AI Act",
+        "Art. 14(2) AI Act"
+      ],
+      "category": "high-risk-requirements",
+      "query_type": "natural",
+      "hit": true,
+      "reciprocal_rank": 0.5,
+      "ndcg": 0.6309297535714575
+    },
+    {
+      "case_id": "accuracy-robustness-cybersecurity",
+      "query": "Which accuracy, robustness and cybersecurity standards apply throughout a high-risk system's lifecycle?",
+      "language": "en",
+      "expected": [
+        "art:15"
+      ],
+      "first_relevant_rank": 1,
+      "retrieved_labels": [
+        "Art. 15(1) AI Act",
+        "Art. 15 AI Act",
+        "Recital (74) AI Act",
+        "Recital (66) AI Act",
+        "Recital (122) AI Act"
+      ],
+      "category": "high-risk-requirements",
+      "query_type": "natural",
+      "hit": true,
+      "reciprocal_rank": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "case_id": "provider-obligations",
+      "query": "What are the main legal obligations of providers of high-risk AI systems?",
+      "language": "en",
+      "expected": [
+        "art:16"
+      ],
+      "first_relevant_rank": null,
+      "retrieved_labels": [
+        "Art. 17(3) AI Act",
+        "Art. 25(3) AI Act",
+        "Recital (178) AI Act",
+        "Art. 25(1) AI Act",
+        "Art. 26(8) AI Act"
+      ],
+      "category": "operator-obligations",
+      "query_type": "natural",
+      "hit": false,
+      "reciprocal_rank": 0.0,
+      "ndcg": 0.0
+    },
+    {
+      "case_id": "quality-management-system",
+      "query": "What must a provider include in its quality management system for high-risk AI?",
+      "language": "en",
+      "expected": [
+        "art:17"
+      ],
+      "first_relevant_rank": 2,
+      "retrieved_labels": [
+        "Recital (81) AI Act",
+        "Art. 17(3) AI Act",
+        "Art. 17(1) AI Act",
+        "Art. 17 AI Act",
+        "Art. 17 AI Act"
+      ],
+      "category": "operator-obligations",
+      "query_type": "natural",
+      "hit": true,
+      "reciprocal_rank": 0.5,
+      "ndcg": 0.6309297535714575
+    },
+    {
+      "case_id": "document-retention",
+      "query": "For how long must providers keep documentation relating to a high-risk AI system?",
+      "language": "en",
+      "expected": [
+        "art:18"
+      ],
+      "first_relevant_rank": 1,
+      "retrieved_labels": [
+        "Art. 18 AI Act",
+        "Art. 18(1) AI Act",
+        "Art. 19(1) AI Act",
+        "Art. 19 AI Act",
+        "Art. 47(1) AI Act"
+      ],
+      "category": "operator-obligations",
+      "query_type": "natural",
+      "hit": true,
+      "reciprocal_rank": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "case_id": "corrective-actions",
+      "query": "What corrective action must a provider take when a high-risk AI system is not compliant?",
+      "language": "en",
+      "expected": [
+        "art:20"
+      ],
+      "first_relevant_rank": 1,
+      "retrieved_labels": [
+        "Art. 20(1) AI Act",
+        "Art. 20 AI Act",
+        "Art. 24(4) AI Act",
+        "Art. 80(2) AI Act",
+        "Art. 80 AI Act"
+      ],
+      "category": "operator-obligations",
+      "query_type": "scenario",
+      "hit": true,
+      "reciprocal_rank": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "case_id": "authority-cooperation",
+      "query": "How must high-risk AI providers cooperate with national competent authorities?",
+      "language": "en",
+      "expected": [
+        "art:21"
+      ],
+      "first_relevant_rank": 1,
+      "retrieved_labels": [
+        "Art. 21 AI Act",
+        "Art. 24 AI Act",
+        "Art. 24(6) AI Act",
+        "Art. 53(3) AI Act",
+        "Recital (161) AI Act"
+      ],
+      "category": "operator-obligations",
+      "query_type": "natural",
+      "hit": true,
+      "reciprocal_rank": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "case_id": "authorised-representative",
+      "query": "When must a provider outside the Union appoint an authorised representative?",
+      "language": "en",
+      "expected": [
+        "art:22"
+      ],
+      "first_relevant_rank": 1,
+      "retrieved_labels": [
+        "Art. 22(1) AI Act",
+        "Art. 54(1) AI Act",
+        "Art. 22 AI Act",
+        "Art. 54 AI Act",
+        "Art. 54(3) AI Act"
+      ],
+      "category": "operator-obligations",
+      "query_type": "scenario",
+      "hit": true,
+      "reciprocal_rank": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "case_id": "importer-obligations",
+      "query": "What checks must an importer perform before placing a high-risk AI system on the Union market?",
+      "language": "en",
+      "expected": [
+        "art:23"
+      ],
+      "first_relevant_rank": 1,
+      "retrieved_labels": [
+        "Art. 23(1) AI Act",
+        "Art. 23 AI Act",
+        "Art. 24(1) AI Act",
+        "Art. 24 AI Act",
+        "Art. 23(2) AI Act"
+      ],
+      "category": "operator-obligations",
+      "query_type": "scenario",
+      "hit": true,
+      "reciprocal_rank": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "case_id": "distributor-obligations",
+      "query": "What must a distributor verify before making a high-risk AI system available?",
+      "language": "en",
+      "expected": [
+        "art:24"
+      ],
+      "first_relevant_rank": 1,
+      "retrieved_labels": [
+        "Art. 24(1) AI Act",
+        "Art. 24 AI Act",
+        "Art. 24(2) AI Act",
+        "Art. 23(1) AI Act",
+        "Art. 24(4) AI Act"
+      ],
+      "category": "operator-obligations",
+      "query_type": "scenario",
+      "hit": true,
+      "reciprocal_rank": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "case_id": "value-chain-responsibility",
+      "query": "When does an importer, distributor or deployer become the provider of a high-risk AI system?",
+      "language": "en",
+      "expected": [
+        "art:25"
+      ],
+      "first_relevant_rank": 1,
+      "retrieved_labels": [
+        "Art. 25(1) AI Act",
+        "Art. 25 AI Act",
+        "Recital (84) AI Act",
+        "Art. 26(5) AI Act",
+        "Art. 26(8) AI Act"
+      ],
+      "category": "operator-obligations",
+      "query_type": "scenario",
+      "hit": true,
+      "reciprocal_rank": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "case_id": "deployer-obligations",
+      "query": "What obligations apply to organisations deploying high-risk AI systems?",
+      "language": "en",
+      "expected": [
+        "art:26"
+      ],
+      "first_relevant_rank": 1,
+      "retrieved_labels": [
+        "Art. 26(8) AI Act",
+        "Recital (91) AI Act",
+        "Art. 26(9) AI Act",
+        "Art. 26(5) AI Act",
+        "Art. 26(1) AI Act"
+      ],
+      "category": "operator-obligations",
+      "query_type": "natural",
+      "hit": true,
+      "reciprocal_rank": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "case_id": "fundamental-rights-impact-assessment",
+      "query": "When must a deployer complete a fundamental rights impact assessment?",
+      "language": "en",
+      "expected": [
+        "art:27"
+      ],
+      "first_relevant_rank": 2,
+      "retrieved_labels": [
+        "Recital (96) AI Act",
+        "Art. 27(2) AI Act",
+        "Art. 27 AI Act",
+        "Art. 27 AI Act",
+        "Art. 86(1) AI Act"
+      ],
+      "category": "impact-assessment",
+      "query_type": "natural",
+      "hit": true,
+      "reciprocal_rank": 0.5,
+      "ndcg": 0.6309297535714575
+    },
+    {
+      "case_id": "conformity-assessment",
+      "query": "Which conformity assessment procedures apply before a high-risk AI system enters the market?",
+      "language": "en",
+      "expected": [
+        "art:43"
+      ],
+      "first_relevant_rank": 2,
+      "retrieved_labels": [
+        "Art. 23(1) AI Act",
+        "Art. 43(4) AI Act",
+        "Art. 23 AI Act",
+        "Recital (125) AI Act",
+        "Recital (123) AI Act"
+      ],
+      "category": "conformity",
+      "query_type": "natural",
+      "hit": true,
+      "reciprocal_rank": 0.5,
+      "ndcg": 0.6309297535714575
+    },
+    {
+      "case_id": "registration",
+      "query": "Which high-risk AI systems and operators must be registered in the EU database?",
+      "language": "en",
+      "expected": [
+        "art:49"
+      ],
+      "first_relevant_rank": 3,
+      "retrieved_labels": [
+        "Art. 71 AI Act",
+        "Art. 26(8) AI Act",
+        "Art. 49(1) AI Act",
+        "Art. 49(4) AI Act",
+        "Recital (131) AI Act"
+      ],
+      "category": "registration",
+      "query_type": "natural",
+      "hit": true,
+      "reciprocal_rank": 0.3333333333333333,
+      "ndcg": 0.5
+    },
+    {
+      "case_id": "chatbot-transparency",
+      "query": "Must people be told when they are interacting directly with an AI system?",
+      "language": "en",
+      "expected": [
+        "art:50"
+      ],
+      "first_relevant_rank": 1,
+      "retrieved_labels": [
+        "Art. 50(1) AI Act",
+        "Art. 50 AI Act",
+        "Recital (132) AI Act",
+        "Recital (100) AI Act",
+        "Art. 75(2) AI Act"
+      ],
+      "category": "transparency",
+      "query_type": "scenario",
+      "hit": true,
+      "reciprocal_rank": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "case_id": "deepfake-disclosure",
+      "query": "What disclosure is required when an AI system generates or manipulates deepfake content?",
+      "language": "en",
+      "expected": [
+        "art:50"
+      ],
+      "first_relevant_rank": 1,
+      "retrieved_labels": [
+        "Art. 50(4) AI Act",
+        "Art. 50 AI Act",
+        "Recital (134) AI Act",
+        "Art. 50 AI Act",
+        "Recital (136) AI Act"
+      ],
+      "category": "transparency",
+      "query_type": "scenario",
+      "hit": true,
+      "reciprocal_rank": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "case_id": "gpai-systemic-risk-classification",
+      "query": "When is a general-purpose AI model classified as having systemic risk?",
+      "language": "en",
+      "expected": [
+        "art:51"
+      ],
+      "first_relevant_rank": 1,
+      "retrieved_labels": [
+        "Art. 51(1) AI Act",
+        "Art. 51 AI Act",
+        "Recital (113) AI Act",
+        "Art. 52(5) AI Act",
+        "Recital (112) AI Act"
+      ],
+      "category": "general-purpose-ai",
+      "query_type": "natural",
+      "hit": true,
+      "reciprocal_rank": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "case_id": "gpai-provider-obligations",
+      "query": "What documentation and copyright obligations apply to providers of general-purpose AI models?",
+      "language": "en",
+      "expected": [
+        "art:53"
+      ],
+      "first_relevant_rank": 1,
+      "retrieved_labels": [
+        "Art. 53 AI Act",
+        "Recital (109) AI Act",
+        "Art. 53(1) AI Act",
+        "Art. 54(6) AI Act",
+        "Art. 55 AI Act"
+      ],
+      "category": "general-purpose-ai",
+      "query_type": "natural",
+      "hit": true,
+      "reciprocal_rank": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "case_id": "gpai-systemic-risk-obligations",
+      "query": "What model evaluations and incident reporting duties apply to GPAI models with systemic risk?",
+      "language": "en",
+      "expected": [
+        "art:55"
+      ],
+      "first_relevant_rank": 1,
+      "retrieved_labels": [
+        "Art. 55(1) AI Act",
+        "Art. 55 AI Act",
+        "Recital (115) AI Act",
+        "Art. 92(1) AI Act",
+        "Recital (114) AI Act"
+      ],
+      "category": "general-purpose-ai",
+      "query_type": "natural",
+      "hit": true,
+      "reciprocal_rank": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "case_id": "gpai-codes-of-practice",
+      "query": "How can codes of practice demonstrate compliance by general-purpose AI model providers?",
+      "language": "en",
+      "expected": [
+        "art:56"
+      ],
+      "first_relevant_rank": 5,
+      "retrieved_labels": [
+        "Art. 53(4) AI Act",
+        "Recital (117) AI Act",
+        "Art. 55(2) AI Act",
+        "Art. 53 AI Act",
+        "Art. 56(7) AI Act"
+      ],
+      "category": "general-purpose-ai",
+      "query_type": "natural",
+      "hit": true,
+      "reciprocal_rank": 0.2,
+      "ndcg": 0.38685280723454163
+    },
+    {
+      "case_id": "regulatory-sandboxes",
+      "query": "What must Member States provide for AI regulatory sandboxes?",
+      "language": "en",
+      "expected": [
+        "art:57"
+      ],
+      "first_relevant_rank": 1,
+      "retrieved_labels": [
+        "Art. 57(1) AI Act",
+        "Art. 62(1) AI Act",
+        "Art. 57 AI Act",
+        "Recital (138) AI Act",
+        "Art. 57(4) AI Act"
+      ],
+      "category": "innovation",
+      "query_type": "natural",
+      "hit": true,
+      "reciprocal_rank": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "case_id": "post-market-monitoring",
+      "query": "What post-market monitoring system must providers establish for high-risk AI?",
+      "language": "en",
+      "expected": [
+        "art:72"
+      ],
+      "first_relevant_rank": 1,
+      "retrieved_labels": [
+        "Art. 72 AI Act",
+        "Art. 72(1) AI Act",
+        "Recital (81) AI Act",
+        "Art. 72(4) AI Act",
+        "Recital (155) AI Act"
+      ],
+      "category": "post-market",
+      "query_type": "natural",
+      "hit": true,
+      "reciprocal_rank": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "case_id": "serious-incident-reporting",
+      "query": "When and how must providers report a serious incident involving a high-risk AI system?",
+      "language": "en",
+      "expected": [
+        "art:73"
+      ],
+      "first_relevant_rank": 1,
+      "retrieved_labels": [
+        "Art. 73 AI Act",
+        "Art. 73(4) AI Act",
+        "Art. 73(1) AI Act",
+        "Art. 73(6) AI Act",
+        "Art. 73(2) AI Act"
+      ],
+      "category": "post-market",
+      "query_type": "scenario",
+      "hit": true,
+      "reciprocal_rank": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "case_id": "administrative-fines",
+      "query": "What administrative fines can be imposed for infringements of the EU AI Act?",
+      "language": "en",
+      "expected": [
+        "art:99"
+      ],
+      "first_relevant_rank": 1,
+      "retrieved_labels": [
+        "Art. 99(3) AI Act",
+        "Art. 100(3) AI Act",
+        "Art. 100(2) AI Act",
+        "Art. 100 AI Act",
+        "Art. 100(1) AI Act"
+      ],
+      "category": "enforcement",
+      "query_type": "natural",
+      "hit": true,
+      "reciprocal_rank": 1.0,
+      "ndcg": 1.0
+    }
+  ]
+}

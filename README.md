@@ -1,161 +1,357 @@
-# ActLens: EU AI Act RAG Assistant
+<p align="center">
+  <img src="frontend/public/logo.png" alt="ActLens logo" width="112" />
+</p>
 
-A production-oriented Retrieval-Augmented Generation (RAG) assistant for querying the EU AI Act with verifiable source citations.
+<h1 align="center">ActLens</h1>
 
-**Detailed documentation:** [docs/PROJECT.md](docs/PROJECT.md)
+<p align="center">
+  A production-oriented, citation-grounded RAG assistant for the EU AI Act.
+</p>
 
-## Features
+<p align="center">
+  <img alt="Python 3.11" src="https://img.shields.io/badge/Python-3.11-3776AB?logo=python&logoColor=white" />
+  <img alt="FastAPI" src="https://img.shields.io/badge/FastAPI-0.115+-009688?logo=fastapi&logoColor=white" />
+  <img alt="React 18" src="https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=black" />
+  <img alt="LangChain" src="https://img.shields.io/badge/LangChain-agents-1C3C3C" />
+  <img alt="License MIT" src="https://img.shields.io/badge/License-MIT-blue" />
+</p>
 
-- **Hybrid Search** — Semantic (ChromaDB) + keyword (BM25) with Reciprocal Rank Fusion
-- **Cross-Encoder Re-ranking** — Refines retrieval results for relevance
-- **Structured Multilingual Dataset** — Pre-chunked EU AI Act from [Hugging Face](https://huggingface.co/datasets/jeroenherczeg/eu-ai-act) with article/recital/annex metadata and citation labels
-- **Adaptive Chunking** — Article/recital/annex-aware splitting for local PDF/HTML files
-- **Incremental Indexing** — Only re-embeds changed chunks on re-ingest
-- **Verifiable Citations** — Every answer cites specific articles, recitals, or annexes
-- **Pluggable LLM Providers** — OpenAI, Anthropic, Google Gemini, or Ollama via environment config
+ActLens answers questions about Regulation (EU) 2024/1689 and checks internal
+policy documents against retrieved provisions. It combines semantic and keyword
+retrieval, cross-encoder re-ranking, LangChain agents, verifiable citations, and
+an evidence inspector in a focused React interface.
 
-## Quick Start
+> [!IMPORTANT]
+> ActLens is a compliance-support and research project, not legal advice.
+> Generated answers must be reviewed against the cited regulation text.
 
-### Prerequisites
+## Why this project is different
 
-- Python 3.11+
-- Docker & Docker Compose (optional)
-- At least one LLM provider configured (OpenAI API key, Anthropic API key, or local Ollama)
+Many RAG demos stop at “embed documents and call an LLM.” ActLens includes the
+engineering needed to inspect and improve retrieval:
 
-### 1. Clone and configure
+- **Hybrid retrieval:** ChromaDB vectors and BM25 keyword search
+- **Rank fusion:** Reciprocal Rank Fusion combines both candidate lists
+- **Legal-aware retrieval:** article-number detection and metadata boosting
+- **Re-ranking:** a cross-encoder scores query-passage relevance
+- **Grounded generation:** prompts require context-only answers and inline citations
+- **Evidence visibility:** users can inspect citations and retrieved passages
+- **Offline evaluation:** versioned retrieval cases report Hit@K, MRR, and nDCG
+- **Incremental indexing:** content hashes prevent unnecessary re-embedding
+- **Operational controls:** readiness checks, request IDs, latency headers,
+  upload limits, sanitized errors, and an opt-in administrative ingest endpoint
+- **Reproducibility:** CI, containers, tests, typed configuration, and documented setup
+
+## Measured retrieval baseline
+
+The checked-in English smoke benchmark currently reports:
+
+- **Hit@5:** 94.1% (32/34 cases)
+- **MRR:** 0.783
+- **nDCG@5:** 0.823
+- **Coverage:** 34 natural and scenario questions across 32 articles
+- **Query slices:** 92.0% Hit@5 for natural questions; 100% for scenarios
+
+The full report is in [`evals/latest-results.json`](evals/latest-results.json).
+Reproduce it with:
+
+```bash
+python scripts/evaluate_retrieval.py --top-k 5 \
+  --output evals/latest-results.json
+```
+
+The two current misses are high-risk classification without an explicit article
+number and a broad provider-obligations query. Keeping these failures visible
+makes the benchmark useful for improving retrieval. This is still a
+developer-authored regression suite, not proof of legal correctness; independent
+expert review and multilingual cases remain roadmap items.
+
+## Product workflows
+
+### Ask about the EU AI Act
+
+Ask a legal or compliance question, receive a grounded answer, and inspect the
+specific articles, recitals, annexes, source links, and retrieved text used to
+produce it.
+
+### Check an internal document
+
+Upload a PDF, HTML, TXT, or Markdown policy. The gap-analysis agent searches the
+Act for relevant obligations and returns covered areas, likely gaps, recommended
+actions, and items requiring legal review.
+
+Uploaded files are deleted after text extraction. The extracted text is sent to
+the configured LLM during analysis.
+
+## Architecture
+
+```mermaid
+flowchart LR
+    UI[React chat and evidence UI] --> API[FastAPI API]
+    API --> Router{Agent router}
+    Router -->|Question| QA[LangChain RAG chain]
+    Router -->|Document| Gap[LangChain gap agent]
+
+    QA --> Hybrid[Hybrid retriever]
+    Gap --> Tool[EU AI Act search tool]
+    Tool --> Hybrid
+
+    Hybrid --> Vector[ChromaDB]
+    Hybrid --> Keyword[BM25]
+    Vector --> RRF[Reciprocal Rank Fusion]
+    Keyword --> RRF
+    RRF --> Ranker[Cross-encoder re-ranker]
+    Ranker --> Context[Deduplicated token-bounded context]
+    Context --> LLM[Configured chat model]
+    LLM --> Evidence[Answer, citations, passages]
+    Evidence --> UI
+```
+
+### Default stack
+
+- **Agent framework:** LangChain with custom orchestration
+- **LLM:** Google Gemini (`gemini-3.6-flash`)
+- **Embeddings:** local Hugging Face
+  (`intfloat/multilingual-e5-small`)
+- **Vector store:** ChromaDB
+- **Keyword retrieval:** BM25
+- **Re-ranker:** `cross-encoder/ms-marco-MiniLM-L-6-v2`
+- **API:** FastAPI and Pydantic
+- **Frontend:** React, TypeScript, Vite, and Tailwind CSS
+
+OpenAI, Anthropic, Gemini, and Ollama chat providers are supported. Embeddings
+can use Hugging Face, OpenAI, Gemini, or Ollama.
+
+## Repository structure
+
+```text
+ActLens/
+├── .github/workflows/ci.yml       # Backend and frontend CI
+├── backend/
+│   ├── app/
+│   │   ├── agents/                # Q&A and gap-analysis agents
+│   │   ├── api/routes/            # Health, chat, upload, ingest
+│   │   ├── core/providers/        # Model provider adapters
+│   │   ├── evaluation/            # Retrieval metrics
+│   │   ├── ingestion/             # Dataset and local-file indexing
+│   │   ├── ranking/               # Cross-encoder re-ranking
+│   │   ├── retrieval/             # Chroma, BM25, and rank fusion
+│   │   └── pipeline/              # RAG pipeline
+│   └── tests/
+├── evals/                         # Versioned benchmark cases and results
+├── frontend/                      # React application
+├── scripts/                       # Ingestion and evaluation CLIs
+├── docs/PROJECT.md                # Detailed technical documentation
+├── docker-compose.yml
+└── .env.example
+```
+
+## Quick start
+
+### Requirements
+
+- Python 3.11
+- Node.js 20+
+- An API key for a hosted LLM, or a running Ollama instance
+- Several gigabytes of disk space for models, packages, and indexes
+
+### 1. Configure
 
 ```bash
 cp .env.example .env
-# Edit .env with your API keys and provider choice
 ```
 
-### 2. Ingest the EU AI Act
+Windows PowerShell:
 
-By default, ActLens ingests the structured multilingual dataset from Hugging Face:
-
-```bash
-python scripts/ingest.py
+```powershell
+Copy-Item .env.example .env
 ```
 
-Index multiple languages:
+Default model configuration:
 
-```bash
-python scripts/ingest.py --languages en,nl,fr,de
+```dotenv
+LLM_PROVIDER=gemini
+EMBEDDING_PROVIDER=hf
+GOOGLE_API_KEY=your_google_ai_studio_key
+GEMINI_MODEL=gemini-3.6-flash
+HF_EMBEDDING_MODEL=intfloat/multilingual-e5-small
 ```
 
-Or ingest local PDF/HTML files from EUR-Lex instead:
+Never commit `.env`.
 
-```bash
-# Download from https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32024R1689
-# Place files in data/raw/, then:
-python scripts/ingest.py --source files
-```
-
-### 3. Start with Docker
-
-```bash
-docker-compose up --build
-```
-
-### 4. Or run locally
+### 2. Install the backend
 
 ```bash
 cd backend
 python -m venv .venv
-source .venv/bin/activate  # Windows: .venv\Scripts\activate
-pip install -e .
+```
+
+macOS/Linux:
+
+```bash
+source .venv/bin/activate
+pip install -e ".[dev]"
 cd ..
-python scripts/ingest.py
+```
+
+Windows PowerShell:
+
+```powershell
+.\.venv\Scripts\Activate.ps1
+pip install -e ".[dev]"
+cd ..
+```
+
+### 3. Build the index
+
+Start with English for a faster setup:
+
+```bash
+python scripts/ingest.py --languages en
+```
+
+To index every supported language:
+
+```bash
+python scripts/ingest.py --languages en,fr,nl
+```
+
+### 4. Start the API
+
+macOS/Linux:
+
+```bash
 cd backend
-uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+.venv/bin/uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
 ```
 
-### 5. Query the API
+Windows PowerShell:
 
-```bash
-curl -X POST http://localhost:8000/api/v1/chat \
-  -H "Content-Type: application/json" \
-  -d '{"query": "What are the obligations for high-risk AI systems under Article 6?", "language": "en"}'
+```powershell
+cd backend
+.\.venv\Scripts\uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
 ```
 
-French example:
+Verify:
 
-```bash
-curl -X POST http://localhost:8000/api/v1/chat \
-  -H "Content-Type: application/json" \
-  -d '{"query": "Quelles sont les obligations pour les systèmes IA à haut risque?", "language": "fr"}'
-```
+- Liveness: http://localhost:8000/health
+- Readiness: http://localhost:8000/ready
+- OpenAPI: http://localhost:8000/docs
 
-Supported languages: `en` (English), `fr` (French), `nl` (Dutch).
-
-OpenAPI docs: http://localhost:8000/docs
-
-### 6. Start the frontend
+### 5. Start the UI
 
 ```bash
 cd frontend
-npm install
+npm ci
 npm run dev
 ```
 
-Open http://localhost:5173 — the UI proxies API calls to the backend.
+Open http://localhost:5173.
 
-Or with Docker (frontend on port 5173):
+## Evaluation
+
+The retrieval benchmark is deterministic and does not call the chat model. It
+uses the persisted index, configured embedding model, hybrid retriever, and
+cross-encoder:
 
 ```bash
-docker-compose up --build
+python scripts/evaluate_retrieval.py
 ```
 
-## Project Structure
+Useful options:
 
-```
-ActLens/
-├── backend/          # FastAPI RAG backend
-│   └── app/
-│       ├── api/          # REST routes
-│       ├── core/         # Config, models, LLM providers
-│       ├── ingestion/    # HF dataset, document loading, chunking, indexing
-│       ├── retrieval/    # Hybrid search (vector + BM25)
-│       ├── processing/   # Context preparation
-│       ├── ranking/      # Cross-encoder re-ranking
-│       ├── generation/   # Answer generation with citations
-│       └── pipeline/     # Full RAG orchestration
-├── frontend/         # React chat UI (Vite + Tailwind)
-│   └── src/
-│       ├── components/layout/     # TopNav, LeftSidebar
-│       ├── components/workspace/  # Chat + empty state
-│       └── components/inspector/  # Evidence inspector panel
-├── data/raw/         # Optional local PDF/HTML files
-├── scripts/          # CLI tools (ingest)
-└── storage/          # Chroma, BM25, and HF cache (gitignored)
+```text
+--cases PATH
+--top-k 5
+--min-hit-rate 0.80
+--output PATH
 ```
 
-## API Endpoints
+The command exits unsuccessfully if the measured hit rate is below the
+configured threshold, making it suitable for a model-aware evaluation workflow.
+It is not run in hosted CI because it requires the generated index and local
+model artifacts.
 
-| Method | Path                | Description                    |
-|--------|---------------------|--------------------------------|
-| GET    | `/health`           | Health check + index status    |
-| POST   | `/api/v1/chat`      | Query → answer with citations  |
-| POST   | `/api/v1/ingest`    | Trigger document indexing      |
-| GET    | `/api/v1/documents` | List indexed sources           |
+## Tests and quality gates
 
-## Environment Variables
+Backend:
 
-See [`.env.example`](.env.example) for all configuration options. Key settings:
+```bash
+cd backend
+ruff check app tests
+pytest
+```
 
-| Variable          | Description                          | Default    |
-|-------------------|--------------------------------------|------------|
-| `DATA_SOURCE`     | `hf`, `files`, or `both`             | `hf`       |
-| `HF_DATASET_ID`   | Hugging Face dataset repo            | `jeroenherczeg/eu-ai-act` |
-| `HF_DATASET_LANGUAGES` | Comma-separated ISO codes (`en`, `fr`, `nl`) | `en,fr,nl` |
-| `LLM_PROVIDER`    | `openai`, `anthropic`, `gemini`, or `ollama` | `gemini`   |
-| `EMBEDDING_PROVIDER` | `hf` (local, free), `openai`, `gemini`, or `ollama` | `hf` |
-| `HF_EMBEDDING_MODEL` | sentence-transformers model on Hugging Face | `intfloat/multilingual-e5-small` |
-| `GOOGLE_API_KEY`  | Google AI Studio API key (for Gemini) | —          |
-| `GEMINI_MODEL`    | Gemini chat model                    | `gemini-3.6-flash` |
-| `RETRIEVAL_TOP_K` | Candidates from hybrid search        | `20`       |
-| `RERANK_TOP_N`    | Chunks after re-ranking              | `5`        |
+Frontend:
+
+```bash
+cd frontend
+npm run build
+```
+
+GitHub Actions runs backend lint/tests and the frontend production build for
+pushes and pull requests.
+
+## Docker
+
+Build the index on the host first, then start both services:
+
+```bash
+python scripts/ingest.py --languages en
+docker compose up --build
+```
+
+The backend runs as a non-root user, exposes a container health check, and mounts
+the generated indexes under `/app/storage`. The Nginx frontend waits for backend
+readiness before starting.
+
+## API summary
+
+- `GET /health` — process liveness and index status
+- `GET /ready` — readiness probe; returns 503 until the index is usable
+- `POST /api/v1/chat` — Q&A or document gap analysis
+- `POST /api/v1/upload` — temporary extraction of supported documents
+- `GET /api/v1/documents` — indexed source metadata
+- `POST /api/v1/ingest` — disabled by default; enable only for trusted administration
+
+See [technical documentation](docs/PROJECT.md) for schemas, data flow, and
+configuration details.
+
+## Security posture
+
+- Provider keys stay in backend environment variables.
+- Uploads have extension and byte-size limits.
+- Temporary upload files are deleted after parsing.
+- Errors returned to clients are sanitized.
+- Responses include `X-Request-ID` and `X-Process-Time-Ms`.
+- The expensive ingest endpoint is disabled by default.
+- Generated indexes, model caches, credentials, and raw documents are ignored by Git.
+
+The current version does **not** include user authentication, authorization,
+tenant isolation, or a durable audit log. Do not expose it directly to the
+public internet or process confidential documents without adding those controls.
+See [SECURITY.md](SECURITY.md).
+
+## Roadmap to production
+
+1. Add OIDC authentication and role-based authorization.
+2. Move ingestion to an authenticated background worker.
+3. Add per-user document isolation, retention controls, and audit events.
+4. Expand retrieval evaluation with expert-reviewed multilingual cases.
+5. Add groundedness, citation precision, answer relevance, and refusal metrics.
+6. Add API integration, browser, load, and provider contract tests.
+7. Export OpenTelemetry traces and service-level metrics.
+8. Add streaming responses and persistent conversation storage.
+
+Calling ActLens **production-oriented** is accurate: it demonstrates the
+architecture, controls, evaluation approach, and operational interfaces expected
+from a serious RAG service. Calling it fully production-ready would require the
+identity, privacy, scale, and quality work above.
+
+## Contributing
+
+Read [CONTRIBUTING.md](CONTRIBUTING.md) before opening a pull request.
 
 ## License
 
-MIT
+Licensed under the [MIT License](LICENSE).

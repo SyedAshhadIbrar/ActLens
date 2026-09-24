@@ -4,7 +4,7 @@ import hashlib
 from typing import Any
 
 from app.config import settings
-from app.ingestion.chunker import Chunk, count_tokens, _split_text
+from app.ingestion.chunker import Chunk, _split_text, count_tokens
 
 
 def _row_value(row: dict[str, Any], key: str) -> Any:

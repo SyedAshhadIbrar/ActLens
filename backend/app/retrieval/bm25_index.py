@@ -80,26 +80,30 @@ class BM25Index:
             ]
         }
 
+    def load_dict(self, data: dict) -> None:
+        """Replace this index's contents while preserving shared references."""
+        self._chunks = [
+            Chunk(
+                chunk_id=raw["chunk_id"],
+                text=raw["text"],
+                source_file=raw["source_file"],
+                article=raw.get("article"),
+                recital=raw.get("recital"),
+                annex=raw.get("annex"),
+                page=raw.get("page"),
+                language=raw.get("language"),
+                citation_label=raw.get("citation_label"),
+                structure_path=raw.get("structure_path"),
+                source_url=raw.get("source_url"),
+                chunk_type=raw.get("chunk_type"),
+                content_hash=raw.get("content_hash", ""),
+            )
+            for raw in data.get("chunks", [])
+        ]
+        self._rebuild()
+
     @classmethod
     def from_dict(cls, data: dict) -> "BM25Index":
         index = cls()
-        for raw in data.get("chunks", []):
-            index._chunks.append(
-                Chunk(
-                    chunk_id=raw["chunk_id"],
-                    text=raw["text"],
-                    source_file=raw["source_file"],
-                    article=raw.get("article"),
-                    recital=raw.get("recital"),
-                    annex=raw.get("annex"),
-                    page=raw.get("page"),
-                    language=raw.get("language"),
-                    citation_label=raw.get("citation_label"),
-                    structure_path=raw.get("structure_path"),
-                    source_url=raw.get("source_url"),
-                    chunk_type=raw.get("chunk_type"),
-                    content_hash=raw.get("content_hash", ""),
-                )
-            )
-        index._rebuild()
+        index.load_dict(data)
         return index

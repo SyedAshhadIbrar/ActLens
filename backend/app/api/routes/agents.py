@@ -1,11 +1,11 @@
 import tempfile
 from pathlib import Path
 
+from fastapi import APIRouter, File, HTTPException, UploadFile
+
 from app.config import settings
 from app.core.models import UploadResponse
 from app.ingestion.loader import load_document
-
-from fastapi import APIRouter, File, HTTPException, UploadFile
 
 router = APIRouter(prefix="/api/v1", tags=["agents"])
 
@@ -18,9 +18,14 @@ async def upload_document(file: UploadFile = File(...)) -> UploadResponse:
     if suffix not in SUPPORTED_UPLOAD_SUFFIXES:
         raise HTTPException(status_code=400, detail=f"Unsupported file type: {suffix}")
 
-    content = await file.read()
+    content = await file.read(settings.max_upload_bytes + 1)
     if not content:
         raise HTTPException(status_code=400, detail="Empty file")
+    if len(content) > settings.max_upload_bytes:
+        raise HTTPException(
+            status_code=413,
+            detail=f"File exceeds the {settings.max_upload_bytes}-byte upload limit.",
+        )
 
     with tempfile.NamedTemporaryFile(suffix=suffix, delete=False) as tmp:
         tmp.write(content)

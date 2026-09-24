@@ -1,6 +1,7 @@
-from app.core.models import DocumentsResponse, DocumentInfo, IngestResponse
+from fastapi import APIRouter, HTTPException, Query, Request
 
-from fastapi import APIRouter, Query, Request
+from app.config import settings
+from app.core.models import DocumentInfo, DocumentsResponse, IngestResponse
 
 router = APIRouter(prefix="/api/v1", tags=["ingest"])
 
@@ -13,6 +14,11 @@ async def ingest_documents(
         description="Data source: hf (Hugging Face dataset), files (local), or both",
     ),
 ) -> IngestResponse:
+    if not settings.enable_ingest_api:
+        raise HTTPException(
+            status_code=403,
+            detail="API ingestion is disabled. Use scripts/ingest.py or set ENABLE_INGEST_API=true.",
+        )
     indexer = request.app.state.indexer
     stats = await indexer.ingest(source)
     return IngestResponse(

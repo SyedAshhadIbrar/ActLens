@@ -442,6 +442,12 @@ Returns:
 
 The endpoint confirms process and index state. It does not call the configured LLM, so a successful health response does not prove that provider credentials or model access work.
 
+### `GET /ready`
+
+Returns the same operational metadata as `/health`, but responds with `503` until
+both the manifest and vector index are available. Container orchestration should
+use this endpoint as its readiness probe.
+
 ### `POST /api/v1/chat`
 
 Request fields:
@@ -519,7 +525,9 @@ source=files
 source=both
 ```
 
-This endpoint is unauthenticated and potentially expensive. It is suitable only for trusted local use.
+This endpoint is potentially expensive and is disabled by default. Set
+`ENABLE_INGEST_API=true` only for trusted administration. It still requires
+authentication before use in a public deployment.
 
 ### `GET /api/v1/documents`
 
@@ -546,6 +554,8 @@ MAX_CONTEXT_TOKENS=3000
 CHUNK_SIZE=512
 CHUNK_OVERLAP=64
 MAX_UPLOAD_CHARS=12000
+MAX_UPLOAD_BYTES=5000000
+ENABLE_INGEST_API=false
 ```
 
 ### Storage
@@ -571,11 +581,18 @@ cd backend
 The current suite covers:
 
 - Legal chunking
+- Persisted BM25 index restoration
+- Retrieval evaluation metrics
+- Upload-size and ingest-endpoint safeguards
 - Gemini provider registration
 - Hugging Face embedding registration
 - LangChain history conversion
 
-It does not yet cover live provider calls, hybrid retrieval quality, complete chat requests, uploads, ingestion, or gap-analysis output.
+The versioned 34-case retrieval benchmark under `evals/` measures Hit@K, MRR,
+and nDCG against the live persisted index. The checked-in baseline currently
+records 94.1% Hit@5, 0.783 MRR, and 0.823 nDCG@5. The suite does not yet cover
+live provider calls, complete chat requests, successful document parsing,
+ingestion, or gap-analysis output.
 
 ### Frontend build
 
@@ -607,21 +624,22 @@ Current behavior:
 
 - `.env` is excluded from Git.
 - Provider keys stay in the backend.
+- Upload bodies are capped before being read in full.
 - Uploaded files are deleted after extraction.
 - Extracted text remains in browser memory for the active page.
 - Extracted text is sent to the selected LLM during document checking.
 - Index and manifest files are local.
+- Client errors are sanitized.
+- Each response includes a request ID and processing-time header.
+- API ingestion is disabled by default.
 
 Current risks:
 
 - No endpoint authentication
 - No role-based access
 - No per-user isolation
-- No upload byte-size limit before reading into memory
 - Extension-based upload validation only
 - No rate limiting
-- Public ingest endpoint
-- Provider exception details may be returned to clients
 - No security headers or production reverse-proxy policy
 - No retention or consent controls
 
@@ -647,41 +665,43 @@ The repository includes backend and frontend Dockerfiles plus `docker-compose.ym
 
 The frontend production image uses Nginx and proxies `/api/` and `/health` to the Compose backend service.
 
-The local Python and Vite workflow is the currently verified development path. Before treating Docker as a supported deployment:
+The backend image installs the application before dropping to a non-root user.
+Compose mounts generated indexes under `/app/storage`, removes development hot
+reload, and uses `/ready` for service health. Build the index on the host before
+starting Compose.
 
-1. Verify that configured storage paths match mounted container paths.
-2. Ensure the index is built inside, or mounted into, the location resolved by backend settings.
-3. Remove Uvicorn `--reload`.
-4. Pin dependency versions.
-5. Add health checks and restart policies.
-6. Protect chat, upload, and ingest endpoints.
+Before treating Docker as a public deployment:
+
+1. Pin production dependency versions.
+2. Add authentication and authorization.
+3. Add external logs, traces, and metrics.
+4. Add a managed document and conversation store.
+5. Add load and failure testing.
 
 ## 15. Production-readiness priorities
 
 ### Priority 0: prevent unsafe exposure
 
 - Add authentication and authorization.
-- Restrict or remove the public ingest endpoint.
-- Add request and upload byte-size limits.
 - Add rate limiting and provider-cost controls.
 - Define document privacy and retention behavior.
 
 ### Priority 1: prove correctness
 
-- Add an authoritative retrieval evaluation set.
-- Measure article retrieval recall and citation precision.
+- Expand the smoke benchmark into an expert-reviewed multilingual evaluation set.
+- Add citation precision, groundedness, answer relevance, and refusal metrics.
 - Add API integration tests for both agents.
 - Add browser tests for question and document workflows.
 - Test every configured provider or narrow the supported set.
 
 ### Priority 2: improve reliability
 
-- Standardize provider error handling.
-- Add structured logs, request IDs, timing, and metrics.
+- Standardize provider error handling across every supported provider.
+- Export structured logs, traces, and service-level metrics.
 - Move expensive ingestion to a background job.
 - Add timeouts and cancellation.
 - Pin production dependencies.
-- Fix and verify Docker volume paths.
+- Add container integration and load tests.
 
 ### Priority 3: product capabilities
 
@@ -715,4 +735,4 @@ This is appropriate for local evaluation. A multi-user deployment requires expli
 
 ## 18. License
 
-The repository does not currently contain a license file. Add one before distributing the project as open-source software.
+ActLens is licensed under the [MIT License](../LICENSE).

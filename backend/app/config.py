@@ -69,6 +69,10 @@ class Settings(BaseSettings):
 
     # Upload limits
     max_upload_chars: int = 12000
+    max_upload_bytes: int = 5_000_000
+
+    # Administrative API
+    enable_ingest_api: bool = False
 
     # CORS
     cors_origins: str = "http://localhost:3000,http://localhost:5173"

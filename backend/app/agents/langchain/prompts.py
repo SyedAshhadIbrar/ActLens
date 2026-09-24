@@ -29,7 +29,6 @@ Answer questions ONLY based on the provided context from the EU AI Act. Follow t
 
 
 def rag_prompt(language: str, mode: WorkspaceMode) -> ChatPromptTemplate:
-    language_name = LANGUAGE_NAMES.get(language, "English")
     return ChatPromptTemplate.from_messages(
         [
             ("system", rag_system_prompt(language, mode)),

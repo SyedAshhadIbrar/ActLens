@@ -1,8 +1,8 @@
+from fastapi import APIRouter, HTTPException, Request
+
 from app.config import SUPPORTED_LANGUAGES, settings
 from app.core.models import HealthResponse
 from app.ingestion.indexer import Indexer
-
-from fastapi import APIRouter, Request
 
 router = APIRouter(tags=["health"])
 
@@ -19,3 +19,14 @@ async def health_check(request: Request) -> HealthResponse:
         chunk_count=indexer.get_chunk_count(),
         supported_languages=list(SUPPORTED_LANGUAGES),
     )
+
+
+@router.get("/ready", response_model=HealthResponse)
+async def readiness_check(request: Request) -> HealthResponse:
+    response = await health_check(request)
+    if not response.index_ready:
+        raise HTTPException(
+            status_code=503,
+            detail="The retrieval index is not ready. Run ingestion before serving traffic.",
+        )
+    return response
